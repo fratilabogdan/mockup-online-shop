@@ -29,10 +29,58 @@ public class UserController {
         return false;
     }
     public boolean delete(int id){
-        if(validUser(getUser(id))){
-            return userRepository.delete(id);
+
+        return userRepository.delete(id);
+
+    }
+    public boolean updateEmail(int id, String newEmail){
+        User user = getUser(id);
+        user.setEmail(newEmail);
+        if(validMail(newEmail)){
+            return userRepository.updateEmail(id,newEmail);
         }
         return false;
+    }
+    public boolean updateFullName(int id, String newName){
+        User user = getUser(id);
+        user.setFullName(newName);
+        if(validName(newName)){
+            return userRepository.updateFullName(id,newName);
+        }
+        return false;
+    }
+    public boolean updateBillAddress(int id, String newAddress){
+        int count=1;
+        Iterator<User> it = userRepository.allUserList().iterator();
+        while (it.hasNext()){
+            User u=it.next();
+            if(newAddress.equals(u.getBillAddress())){
+                count++;
+            }
+        }
+        if(count>=2){
+            return false;
+        } else {
+            return userRepository.updateBillAddress(id,newAddress);
+        }
+    }
+    public boolean updateTrialDays(int id, int newDays){
+        if(!(getUser(id) instanceof Guest)){
+            return false;
+        }
+        int count=1;
+        Iterator<User> it = userRepository.allUserList().iterator();
+        while (it.hasNext()){
+            User u=it.next();
+            if(((Guest)u).getTrialDays()==newDays){
+                count++;
+            }
+        }
+        if(count>=2){
+            return false;
+        } else {
+            return userRepository.updateTrialDays(id,newDays);
+        }
     }
 
     //Utility
@@ -83,7 +131,7 @@ public class UserController {
         Iterator<User> it = userRepository.allUserList().iterator();
         while (it.hasNext()){
             User u=it.next();
-            if(user.getId()==u.getId() || user.getEmail().equals(u.getEmail()) || user.getBillAddress().equals(u.getBillAddress())){
+            if(user.getId()==u.getId() || user.getBillAddress().equals(u.getBillAddress())){
                 count++;
             }
         }
@@ -93,6 +141,18 @@ public class UserController {
         return true;
     }
     public boolean validMail(String mail){
+        int count=1;
+        Iterator<User> it = userRepository.allUserList().iterator();
+        while (it.hasNext()){
+            User u=it.next();
+            if(mail.equals(u.getEmail())){
+                count++;
+            }
+        }
+        if(count>=2){
+            return false;
+        }
+
         final Pattern EMAIL_REGEX = Pattern.compile(
                 "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
                 , Pattern.CASE_INSENSITIVE);
@@ -130,7 +190,6 @@ public class UserController {
             System.out.println("Total duplicates removed: "+count);
             return true;
         }
-        System.out.println("Total duplicates removed: "+count);
         return false;
     }
 }

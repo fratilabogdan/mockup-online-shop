@@ -88,7 +88,101 @@ class UserControllerTest {
         userController.delete(id);
     }
     @Test
-    public void testRemoveDuplicates(){
-        userController.removeDuplicates();
+    public void testDelete(){
+        User validUser = new Admin("testdelete@test.com","TestPassword", "Test Name Delete", "Test address delete",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        userController.delete(id);
+        assertEquals(null, userController.getUser(id));
+
+    }
+    @Test
+    public void testGetAdmin(){
+        User validUser = new Admin("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        assertEquals("TestAdminPass", userController.getAdmin(id).getAdminPassword());
+        userController.delete(id);
+    }
+    @Test
+    public void testGetGuest(){
+        User validUser = new Guest("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",9);
+        userController.add(validUser);
+        int id= userController.lastID();
+        assertEquals(9, userController.getGuest(id).getTrialDays());
+        userController.delete(id);
+    }
+    @Test
+    public void testUpdateEmailAdmin(){
+        User validUser = new Admin("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        userController.updateEmail(id, "NewTestMail@test.com");
+        assertEquals("NewTestMail@test.com", userController.getUser(id).getEmail());
+        userController.delete(id);
+    }
+    @Test
+    public void testUpdateEmailAdminFalse(){
+        User validUser = new Admin("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        userController.updateEmail(id, "NewTestMailtest.com");
+        assertEquals(false, userController.getUser(id).getEmail().equals("NewTestMailtest.com"));
+        userController.delete(id);
+    }
+    @Test
+    public void testUpdateEmailAdminFalseDuplicate(){
+        User validUser = new Admin("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        userController.updateEmail(id, userController.getUser(idUser).getEmail());
+        assertEquals(false, userController.getUser(id).getEmail().equals(userController.getUser(idUser).getEmail()));
+        userController.delete(id);
+    }
+    @Test
+    public void testUpdateFullName(){
+        User validUser = new Admin("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        userController.updateFullName(id, "Name Valid");
+        assertEquals("Name Valid", userController.getUser(id).getFullName());
+        userController.delete(id);
+    }
+    @Test
+    public void testUpdateFullNameFalse(){
+        User validUser = new Admin("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        userController.updateFullName(id, "Name @Valid");
+        assertEquals(false, userController.getUser(id).getFullName().equals("Name @Valid"));
+        userController.delete(id);
+    }
+    @Test
+    public void testUpdateAddress(){
+        User validUser = new Admin("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        userController.updateBillAddress(id, "Name Valid");
+        assertEquals("Name Valid", userController.getUser(id).getBillAddress());
+        userController.delete(id);
+    }
+    @Test
+    public void testUpdateAddressFalse(){
+        User validUser = new Admin("TestEmailValid@test.com","TestPassword", "Test Name Valid", "Test address valid",true,"TestAdminPass");
+        userController.add(validUser);
+        int id= userController.lastID();
+        userController.updateBillAddress(id, userController.getUser(idUser).getBillAddress());
+        assertEquals(false, userController.getUser(id).getBillAddress().equals(userController.getUser(idUser).getBillAddress()));
+        userController.delete(id);
+    }
+    @Test
+    public void testUpdateTrialDays(){
+        User validUser = new Guest("guestmail@test.com","TestPassword", "Guest Name Valid", "Guest address valid",9);
+        userController.add(validUser);
+        int id= userController.lastID();
+        System.out.println(userController.getUser(id));
+        userController.updateTrialDays(id,10);
+        assertEquals(10, userController.getGuest(id).getTrialDays());
+        userController.delete(id);
     }
 }

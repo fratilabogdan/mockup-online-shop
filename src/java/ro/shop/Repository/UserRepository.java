@@ -171,7 +171,7 @@ public class UserRepository extends Repository{
 
     }
     public boolean delete(int id){
-        String del="delete product from product where id="+id;
+        String del="delete users from users where id="+id;
         return execute(del);
     }
     public boolean updateEmail(int id, String newMail){

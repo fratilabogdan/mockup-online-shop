@@ -16,7 +16,7 @@ public class UserController {
     List<User> userList;
 
     public UserController(){
-        UserRepository userRepository = new UserRepository();
+        userRepository = new UserRepository();
         this.userRepository = userRepository;
         this.userList = userRepository.allUserList();
     }
@@ -82,6 +82,7 @@ public class UserController {
             return userRepository.updateTrialDays(id,newDays);
         }
     }
+
 
     //Utility
     public User getUser(int id){

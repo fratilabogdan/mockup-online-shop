@@ -14,8 +14,8 @@ import java.util.List;
 
 
 class UserControllerTest {
-    private UserController userController;
-    private int idUser;
+    public UserController userController;
+    public int idUser;
 
     @BeforeAll
     public static void pre(){
@@ -175,6 +175,8 @@ class UserControllerTest {
         assertEquals(false, userController.getUser(id).getBillAddress().equals(userController.getUser(idUser).getBillAddress()));
         userController.delete(id);
     }
+
+    //PROBLEME
     @Test
     public void testUpdateTrialDays(){
         User validUser = new Guest("guestmail@test.com","TestPassword", "Guest Name Valid", "Guest address valid",9);
@@ -183,6 +185,7 @@ class UserControllerTest {
         System.out.println(userController.getUser(id));
         userController.updateTrialDays(id,10);
         assertEquals(10, userController.getGuest(id).getTrialDays());
-        userController.delete(id);
+        userController.delete(id); // cred ca nu merge nici delete
+
     }
 }

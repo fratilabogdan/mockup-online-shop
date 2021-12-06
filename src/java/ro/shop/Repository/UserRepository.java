@@ -94,10 +94,10 @@ public class UserRepository extends Repository{
                     } else {
                         User u=new Guest(
                                 set.getInt(1),
-                            set.getString(2),
-                            set.getString(3),
-                            set.getString(4),
-                            set.getString(5),
+                                set.getString(2),
+                                set.getString(3),
+                                set.getString(4),
+                                set.getString(5),
                             set.getInt(8)
                     );
                     users.add(u);
@@ -114,9 +114,7 @@ public class UserRepository extends Repository{
         List<User> users = new ArrayList<>();
         try {
             while (set.next()){
-
                 String text=set.getString(7);
-
                 if(text!=null){
 
                     User u=new Admin(

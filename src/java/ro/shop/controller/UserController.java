@@ -29,9 +29,10 @@ public class UserController {
         return false;
     }
     public boolean delete(int id){
-
-        return userRepository.delete(id);
-
+        if(containsID(id)){
+            return userRepository.delete(id);
+        }
+        return false;
     }
     public boolean updateEmail(int id, String newEmail){
         User user = getUser(id);

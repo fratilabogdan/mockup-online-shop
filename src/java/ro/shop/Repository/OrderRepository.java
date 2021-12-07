@@ -68,7 +68,7 @@ public class OrderRepository extends Repository{
                 orders.add(o);
             }
         }catch (Exception e){
-            System.out.println("Error on AllOrdersList");
+            System.out.println("Error on lastID");
             e.printStackTrace();
         }
         return orders.get(0).getId();
@@ -87,7 +87,7 @@ public class OrderRepository extends Repository{
                     orders.add(o);
                 }
             }catch (Exception e){
-                System.out.println("Error on AllOrdersList");
+                System.out.println("Error on getOrder");
                 e.printStackTrace();
             }
             return orders.get(0);

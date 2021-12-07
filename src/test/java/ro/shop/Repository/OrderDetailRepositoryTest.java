@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import ro.shop.model.OrderDetail;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.List;
 
 class OrderDetailRepositoryTest {
     private OrderDetailRepository orderDetailRepository;
@@ -32,7 +31,7 @@ class OrderDetailRepositoryTest {
     }
     @Test
     public void testUpdateOrderID(){
-        orderDetailRepository.updateOrderID(idOrderDetail,5);
+        orderDetailRepository.updatePrice(idOrderDetail,5);
         assertEquals(5,orderDetailRepository.getOrderDetail(idOrderDetail).getOrderID());
     }
     @Test

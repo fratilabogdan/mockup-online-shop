@@ -55,9 +55,10 @@ public class OrderDetailController {
 
 
     //Problem
-    public boolean updatePrice(int id, int newPrice){
-        return orderDetailRepository.updatePrice(newPrice);
-    }
+    //:todo solve
+//    public boolean updatePrice(int id, int newPrice){
+//        return orderDetailRepository.updatePrice(newPrice);
+//    }
 
 
     public OrderDetail getOrderDetail(int id){
@@ -80,6 +81,7 @@ public class OrderDetailController {
         }
         return false;
     }
+
     public int nbOfDuplicates(OrderDetail order){
         int count=1;
         Iterator<OrderDetail> it = orderDetailRepository.allOrderDetailList().iterator();

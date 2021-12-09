@@ -29,11 +29,15 @@ class OrderDetailRepositoryTest {
     public void testAllOrderDetailList(){
         assertEquals(true,orderDetailRepository.allOrderDetailList().size()!=0);
     }
+
+
     @Test
     public void testUpdateOrderID(){
-        orderDetailRepository.updatePrice(idOrderDetail,5);
+        orderDetailRepository.updateOrderID(idOrderDetail,5);
         assertEquals(5,orderDetailRepository.getOrderDetail(idOrderDetail).getOrderID());
     }
+
+
     @Test
     public void testUpdateProductID(){
         orderDetailRepository.updateProductID(idOrderDetail,5);

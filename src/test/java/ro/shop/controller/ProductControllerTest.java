@@ -15,8 +15,8 @@ class ProductControllerTest {
     @BeforeEach
     public void initi(){
         productController = new ProductController();
-        Product validWearable = new WearableProduct("Wearable Test",1,1,"XS","Test material");
-        Product validElectronic = new ElectronicProduct("Electronic test",1,1,true);
+        Product validWearable = new WearableProduct("Wearable Test add",1,1,"XS","Test material");
+        Product validElectronic = new ElectronicProduct("Electronic test add",1,1,true);
         productController.add(validWearable);
         idWearable= productController.lastID();
         productController.add(validElectronic);
@@ -40,18 +40,18 @@ class ProductControllerTest {
     public void testGetWearable(){
         assertEquals(true, productController.getProduct(idWearable).getId()==idWearable);
     }
+
     @Test
     public void testProductUpdateName(){
         productController.updateName(idElectronic, "New for test ELectronic name");
         assertEquals(true, productController.getProduct(idElectronic).getName().equals("New for test ELectronic name"));
     }
 
-    //Problem. lastID for these or something
+
     @Test
     public void testProductUpdateNameFalse(){
-        productController.updateName(idElectronic, productController.getProduct(idWearable).getName());
-        System.out.println(productController.getProduct(idElectronic));
-        assertEquals(false, productController.getProduct(idElectronic).getName().equals(productController.getProduct(idWearable).getName()));
+        productController.updateName(idElectronic, "updated electronic");
+        assertEquals(false, productController.updateName(idElectronic,"updated electronic"));
     }
 
 }

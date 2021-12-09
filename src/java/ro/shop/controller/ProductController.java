@@ -20,7 +20,7 @@ public class ProductController {
     }
 
     public boolean add(Product product){
-        if(!duplicate(product) && (product.getClass().equals("Electronics") || product.getClass().equals("Wearable"))){
+        if(!duplicate(product) && ((product instanceof WearableProduct) || (product instanceof ElectronicProduct))){
             return productRepository.add(product);
         }
         return false;
@@ -35,9 +35,27 @@ public class ProductController {
         if(containsID(id)){
             Product product = getProduct(id);
             product.setName(newName);
-            if(nbOfDuplicates(product)>2){
+            if(containsName(product.getName())){
                 return false;
             } else return productRepository.updateName(id,newName);
+        }
+        return false;
+    }
+
+    public boolean updatePrice(int id, int newPrice){
+        if(containsID(id)){
+            return productRepository.updatePrice(id, newPrice);
+        }
+        return false;
+    }
+
+    public boolean containsName(String name){
+        Iterator<Product> it = productRepository.allProducts().iterator();
+        while (it.hasNext()){
+            Product u=it.next();
+            if(u.getName().equals(name)){
+                return true;
+            }
         }
         return false;
     }
@@ -123,5 +141,23 @@ public class ProductController {
         return false;
     }
 
+    public Product getProductByName(String name){
 
+        Iterator<Product> it = productRepository.allProducts().iterator();
+        while (it.hasNext()){
+            Product u=it.next();
+            if(u.getName().equals(name)){
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public void showAllProducts() {
+        Iterator<Product> it = productRepository.allProducts().iterator();
+        while (it.hasNext()) {
+            Product b = it.next();
+            System.out.println(b);
+        }
+    }
 }

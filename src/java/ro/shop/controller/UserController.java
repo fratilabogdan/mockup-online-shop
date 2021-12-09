@@ -1,5 +1,6 @@
 package ro.shop.controller;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import ro.shop.Repository.UserRepository;
 import ro.shop.model.User;
 import ro.shop.model.user.Guest;
@@ -66,22 +67,12 @@ public class UserController {
         }
     }
     public boolean updateTrialDays(int id, int newDays){
-        if(!(getUser(id) instanceof Guest)){
+        if((getUser(id) instanceof Admin)){
             return false;
         }
-        int count=1;
-        Iterator<User> it = userRepository.allUserList().iterator();
-        while (it.hasNext()){
-            User u=it.next();
-            if(((Guest)u).getTrialDays()==newDays){
-                count++;
-            }
-        }
-        if(count>=2){
-            return false;
-        } else {
+
             return userRepository.updateTrialDays(id,newDays);
-        }
+
     }
 
 
@@ -93,15 +84,18 @@ public class UserController {
         return null;
     }
     public Admin getAdmin(int id){
-        if(containsID(id) && userRepository.isAdmin(id)){
+        if(containsID(id) && userRepository.getUser(id) instanceof Admin){
             return (Admin) userRepository.getUser(id);
         }
         return null;
     }
     public Guest getGuest(int id){
-        if(containsID(id) && !userRepository.isAdmin(id)){
+
+        System.out.println(containsID(id));
+        if(containsID(id) && userRepository.getUser(id) instanceof Guest){
             return (Guest) userRepository.getUser(id);
         }
+
         return null;
     }
     public boolean containsID(int id){
@@ -142,7 +136,7 @@ public class UserController {
         }
         return true;
     }
-    public boolean validMail(String mail){
+    public boolean duplicateMail(String mail){
         int count=1;
         Iterator<User> it = userRepository.allUserList().iterator();
         while (it.hasNext()){
@@ -152,14 +146,26 @@ public class UserController {
             }
         }
         if(count>=2){
-            return false;
+            return true;
         }
-
+        return false;
+    }
+    public boolean validMailText(String mail){
         final Pattern EMAIL_REGEX = Pattern.compile(
                 "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
                 , Pattern.CASE_INSENSITIVE);
         return EMAIL_REGEX.matcher(mail).matches();
     }
+
+
+    public boolean validMail(String mail){
+        if(duplicateMail(mail)==false && validMailText(mail)){
+            return true;
+        }
+        return false;
+    }
+
+
     public boolean validName(String name){
 
         String regex = "^([a-zA-Z]{2,}\\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\\s?([a-zA-Z]{1,})?)";
@@ -193,5 +199,16 @@ public class UserController {
             return true;
         }
         return false;
+    }
+
+    public User getUserByMail(String mail){
+        Iterator<User> it = userRepository.allUserList().iterator();
+        while (it.hasNext()){
+            User u=it.next();
+            if(mail.equals(u.getEmail())){
+                return u;
+            }
+        }
+        return null;
     }
 }

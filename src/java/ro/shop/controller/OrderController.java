@@ -51,14 +51,14 @@ public class OrderController {
 
     //:todo
     //problem
-    public boolean updateStatus(int id, String newStatus){
-        Order order = getOrder(id);
-        if(order.getOrderStatus().equals(newStatus)){
-            return false;
-        }else {
-            return orderRepository.updateOrderStatus(newStatus);
-        }
-    }
+//    public boolean updateStatus(int id, String newStatus){
+//        Order order = getOrder(id);
+//        if(order.getOrderStatus().equals(newStatus)){
+//            return false;
+//        }else {
+//            return orderRepository.updateOrderStatus(newStatus);
+//        }
+//    }
 
 
     public Order getOrder(int id){
